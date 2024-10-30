@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./css/styleCatalog.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+
+    <title>Catalog</title>
+</head>
+<body>
+    <%- include("partials/nav_bar"); -%>
+
+    <header class="header text-center">
+        <h1>House Catalog</h1>
+        <p>Here are the available houses</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="input-group mt-4">
+            <form action="/search" method="get" class="d-flex w-100">
+                <input type="text" name="address" class="form-control" placeholder="Enter a city or ZIP code (Zapopan, 43243)" aria-label="Search Address" aria-describedby="search-button" required>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-secondary" id="search-button">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>                              
+                </div>
+            </form>
+            
+        </div>
+    </div>
+
+    <section class="catalog container mt-4">
+        <div class="row">
+            <% if (noHousesMessage) { %>
+                <p><%= noHousesMessage %></p>
+                <% } else { %>
+            <% Houses.forEach(house => { %>
+                <div class="col house-item">
+                    <div class="card mb-4">
+                        <div class="house-image">
+                            <img src="<%= house.imageurl %>" class="card-img-top" alt="Image of <%= house.description %>">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title"><%= house.name %></h5>
+                            <p class="card-text"><strong>City:</strong> <%= house.city %></p>
+                            <p class="card-text"><strong>ZIP Code:</strong> <%= house.zipCode %></p>
+                            <p class="card-text"><strong>Price:</strong> $<%= house.price.toLocaleString() %></p>
+                            <a href="/house/<%= house.zipCode %>" class="btn btn-outline-secondary">Ver Detalles</a>
+                             <!-- Botones de Save y Share -->
+                             <div class="d-flex justify-content-between">
+                                <button class="btn btn-outline-success btn-sm save-btn"><i class="fas fa-heart"></i> Save</button>
+                                <button class="btn btn-outline-secondary btn-sm share-btn"><i class="fas fa-share-alt"></i> Share</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+        </div>
+            <% }) %>
+        <% } %>
+    </section>
+
+    
+
+
+
+    <%- include("partials/footer2"); -%>
